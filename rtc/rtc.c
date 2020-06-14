@@ -1,5 +1,4 @@
 #include "rtc.h"
-#include "../internal_eeprom/eeprom.h"
 
 void rtc_init()
 {
@@ -57,51 +56,35 @@ void rtc_update(RTC_STRUCT* ptr2RTC)
 	/* convert to normal seconds */
 	ptr2RTC->rtc_regs[0] = regs[0] & 0x0F;
 	ptr2RTC->rtc_regs[0] += ( ( regs[0] & 0x70 ) >> 4 ) * 10;
-	eeprom_write(sec_add_uint, ptr2RTC->rtc_regs[0]);
 	ptr2RTC->rtc_time[7] = (regs[0] & 0x0F) + '0';
 	ptr2RTC->rtc_time[6] = ( ( ( regs[0] & 0x70 ) >> 4 ) ) + '0';
 	ptr2RTC->rtc_time[5] = ':';
 	/* convert to normal minutes */
 	ptr2RTC->rtc_regs[1] = regs[1] & 0x0F;
 	ptr2RTC->rtc_regs[1] += ( ( regs[1] & 0x70 ) >> 4 ) * 10;
-	eeprom_write(min_add_uint, ptr2RTC->rtc_regs[1]);
 	ptr2RTC->rtc_time[4] = (regs[1] & 0x0F) + '0';
 	ptr2RTC->rtc_time[3] = ( ( ( regs[1] & 0x70 ) >> 4 ) ) + '0';
 	ptr2RTC->rtc_time[2] = ':';
 	/* convert to normal hours */
 	ptr2RTC->rtc_regs[2] = regs[2] & 0x0F;
 	ptr2RTC->rtc_regs[2] += ( ( regs[2] & 0x30 ) >> 4 ) * 10;
-	eeprom_write(hrs_add_uint, ptr2RTC->rtc_regs[2]);
 	ptr2RTC->rtc_time[1] = (regs[2] & 0x0F) + '0';
 	ptr2RTC->rtc_time[0] = ( ( ( regs[2] & 0x30 ) >> 4 ) ) + '0';
 	/* convert to normal days */
 	ptr2RTC->rtc_regs[4] = regs[4] & 0x0F;
 	ptr2RTC->rtc_regs[4] += ( ( regs[4] & 0x30 ) >> 4 ) * 10;
-	eeprom_write(day_add_uint, ptr2RTC->rtc_regs[4]);
 	ptr2RTC->rtc_date[1] = (regs[4] & 0x0F) + '0';
 	ptr2RTC->rtc_date[0] = ( ( ( regs[4] & 0x30 ) >> 4 ) ) + '0';
 	ptr2RTC->rtc_date[2] = '/';
 	/* convert to normal months */
 	ptr2RTC->rtc_regs[5] = regs[5] & 0x0F;
 	ptr2RTC->rtc_regs[5] += ( ( regs[5] & 0x10 ) >> 4 ) * 10;
-	eeprom_write(mon_add_uint, ptr2RTC->rtc_regs[5]);
 	ptr2RTC->rtc_date[4] = (regs[5] & 0x0F) + '0';
 	ptr2RTC->rtc_date[3] = ( ( ( regs[5] & 0x10 ) >> 4 ) ) + '0';
 	ptr2RTC->rtc_date[5] = '/';
 	/* convert to normal years */
 	ptr2RTC->rtc_regs[6] = regs[6] & 0x0F;
 	ptr2RTC->rtc_regs[6] += ( ( regs[6] & 0xF0 ) >> 4 ) * 10;
-	eeprom_write(yrs_add_uint, ptr2RTC->rtc_regs[6]);
 	ptr2RTC->rtc_date[7] = (regs[6] & 0x0F) + '0';
 	ptr2RTC->rtc_date[6] = ( ( ( regs[6] & 0xF0 ) >> 4 ) ) + '0';
-	
-	for(i = 0; i < 5; i++)
-	{
-		eeprom_write(i+time_add, ptr2RTC->rtc_time[i]);
-	}
-	
-	for(i = 0; i < 5; i++)
-	{
-		eeprom_write(i+date_add, ptr2RTC->rtc_date[i]);
-	}
 }
