@@ -3,15 +3,6 @@
 
 #include "../i2c/i2c.h"
 
-#define time_add		30
-#define date_add		50
-#define sec_add_uint	70
-#define min_add_uint	71
-#define hrs_add_uint	72
-#define day_add_uint	90
-#define mon_add_uint	91
-#define yrs_add_uint	92
-
 #define RTC_SLA_W	0b11010000
 #define RTC_SLA_R	0b11010001
 
